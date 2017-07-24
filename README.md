@@ -42,7 +42,7 @@ is better than this code:
 
 DETAILS
 
-Confix will error on: 
+Confix will return an error on: 
 
 1. Type mis-match between your struct and their struct.
 1. Unsettable members in their struct that your struct tries to set.
