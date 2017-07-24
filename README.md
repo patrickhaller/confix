@@ -3,7 +3,8 @@
 Because this code:
 
 ```golang
-	confix.Confix("Ldap", &cfg, &ldap.LDAPClient)
+	client := ldap.LDAPClient{}
+	confix.Confix("Ldap", &cfg, &client)
 ```
 
 is better than this code:
