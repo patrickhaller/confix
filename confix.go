@@ -8,11 +8,12 @@
 package confix
 
 import (
+	"fmt"
 	"reflect"
 )
 
 // Confix grafts one config struct onto another
-func Confix(prefix string, src interface{}, dst interface{}) {
+func Confix(prefix string, src interface{}, dst interface{}) error {
 	_a := reflect.ValueOf(src)
 	a := _a.Elem()
 	_b := reflect.ValueOf(dst)
@@ -21,14 +22,21 @@ func Confix(prefix string, src interface{}, dst interface{}) {
 	for i := 0; i < a.NumField(); i++ {
 		akey := a.Type().Field(i).Name
 		aval := a.Field(i)
+		atyp := a.Field(i).Type()
 		for j := 0; j < b.NumField(); j++ {
-			if b.Field(j).CanSet() == false {
+			bkey := b.Type().Field(j).Name
+			if akey != prefix+bkey {
 				continue
 			}
-			bkey := b.Type().Field(j).Name
-			if akey == prefix+bkey {
-				b.Field(j).Set(aval)
+			if b.Field(j).CanSet() == false {
+				return fmt.Errorf(
+					"Member is unsettable (likely unexported): %s", bkey)
 			}
+			if atyp != b.Field(j).Type() {
+				return fmt.Errorf("Type of %s != %s", akey, bkey)
+			}
+			b.Field(j).Set(aval)
 		}
 	}
+	return nil
 }

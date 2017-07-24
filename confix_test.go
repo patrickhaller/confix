@@ -10,6 +10,7 @@ type yours struct {
 	TheirInt    int
 	TheirString string
 	Theirfish   string
+	TheirNotInt int
 }
 
 type theirs struct {
@@ -17,6 +18,7 @@ type theirs struct {
 	String string
 	fish   string
 	Cat    string
+	NotInt string
 }
 
 func TestConfix(t *testing.T) {
@@ -26,6 +28,7 @@ func TestConfix(t *testing.T) {
 		TheirInt:    5,
 		TheirString: "their string",
 		Theirfish:   "their fish",
+		TheirNotInt: 1,
 	}
 
 	var their theirs
@@ -41,5 +44,8 @@ func TestConfix(t *testing.T) {
 	}
 	if their.fish != "" {
 		t.Errorf("Privacy violation of unexported struct member")
+	}
+	if their.NotInt != "" {
+		t.Errorf("Type violation of exported struct member")
 	}
 }

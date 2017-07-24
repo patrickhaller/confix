@@ -4,7 +4,9 @@ Because this code:
 
 ```golang
 	client := ldap.LDAPClient{}
-	confix.Confix("Ldap", &cfg, &client)
+	if err := confix.Confix("Ldap", &cfg, &client); err != nil {
+      slog.P("Confix failed with `%v'", err)
+   }
 ```
 
 is better than this code:
@@ -38,4 +40,9 @@ is better than this code:
 ```
 
 
+DETAILS
 
+Confix will error on: 
+
+1. Type mis-match between your struct and their struct.
+1. Unsettable members in their struct that your struct tries to set.
