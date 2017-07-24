@@ -6,7 +6,7 @@ Because this code:
 	confix.Confix("Ldap", cfg, ldap.LDAPClient)
 ```
 
-is better than writing this code:
+is better than this code:
 
 ```golang
 	client := ldap.LDAPClient{
